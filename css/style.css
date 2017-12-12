@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  padding: 0; }
+
+#cont {
+  margin: auto;
+  width: 100%;
+  height: 100vh;
+  background: black fixed; }
+
+img#player {
+  -webkit-transition-property: top, left;
+  -webkit-transition-duration: 0.3s;
+  position: absolute;
+  top: 0px;
+  left: 0px; }
+
+/*# sourceMappingURL=style.css.map */

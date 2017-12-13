@@ -1,4 +1,4 @@
-var playerSpeed = 25;
+var playerSpeed = 2;
 var playerSize = 100;
 
 var player = document.querySelector('#player');
@@ -13,36 +13,53 @@ player.style.left = (screen.width/2 - playerSize) + 'px';
 
 
 //control
+var toUp, toDown, toLeft, toRight;
+toUp=toDown=toLeft=toRight = false;
+
 document.body.onkeydown = function (e) {
+  if (e.keyCode == 37 || e.keyCode == 65 ) toLeft = true;
+  if (e.keyCode == 39 || e.keyCode == 68 ) toRight = true;
+  if (e.keyCode == 38 || e.keyCode == 87 ) toUp = true;
+  if (e.keyCode == 40 || e.keyCode == 83 ) toDown = true; 
+  console.log(e.keyCode);
+}
+document.body.onkeyup = function (e) {
+  if (e.keyCode == 37 || e.keyCode == 65 ) toLeft = false;
+  if (e.keyCode == 39 || e.keyCode == 68 ) toRight = false;
+  if (e.keyCode == 38 || e.keyCode == 87 ) toUp = false;
+  if (e.keyCode == 40 || e.keyCode == 83 ) toDown = false; 
+}
+
+setInterval(function () {
 
   //left
   if( parseInt(player.style.left) > 0 ){ //limit left
-      if (e.keyCode == 37 || e.keyCode == 65 ) {
+      if (toLeft) {
         player.style.left = (parseInt(player.style.left) - playerSpeed) + 'px';
       }
   }
  
   //right
   if( parseInt(player.style.left) < screen.width - 2*playerSize ){  //limit right
-   if (e.keyCode == 39 || e.keyCode == 68 ) {
+   if (toRight) {
         player.style.left = (parseInt(player.style.left) + playerSpeed) + 'px';
     }
   }
 
   //up
   if( parseInt(player.style.top) > 0 ){ //limit top
-    if (e.keyCode == 38 || e.keyCode == 87 ) {
+    if (toUp) {
       player.style.top = (parseInt(player.style.top) - playerSpeed) + 'px';
     }
   }
   
   //down
   if( parseInt(player.style.top) < screen.height - 2*playerSize ){ //limit bottom
-    if (e.keyCode == 40 || e.keyCode == 83 ) {
+    if (toDown) {
       player.style.top = (parseInt(player.style.top) + playerSpeed) + 'px';
     }
   }
-}
+},10);
 
 
 //rotation
@@ -60,7 +77,6 @@ document.getElementById('cont').onmousemove = function (e) {
   var degree = Math.atan2(dy, dx) * 180/Math.PI;
 
   player.style.transform = 'rotate(' + degree + 'deg)';
-  console.log(degree);
 }
 
 

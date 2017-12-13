@@ -1,7 +1,8 @@
 $(window).ready(function(){
   var playerSpeed = 2;
   var playerSize = 100;
-  var bulletSize = 20;
+  var bulletSize = 30;
+  var bulletTime = 200;
 
   var player = $('#player');
 
@@ -88,23 +89,30 @@ $(window).ready(function(){
 
   //shooting
   $('#cont').click(function(e){
-    //center of player
+    //center of player - start position
     var centerX = parseInt(player.css('left')) + playerSize/2;
     var centerY = parseInt(player.css('top')) + playerSize/2; 
 
-    //start position
+    //target position
     var wrapper = $(this).parent();
     var parentOffset = wrapper.offset(); 
     var relX = e.pageX - parentOffset.left;
     var relY = e.pageY - parentOffset.top;
 
+    //angle of bullet
+    var dx = e.pageX - centerX;
+    var dy = e.pageY - centerY;
+    var angle = Math.atan2(dy, dx) * 180/Math.PI;
+
     //adding bullet
-    var bullet = $('<div/>').addClass('bullet').css({
+    var bullet = $('<img/>').addClass('bullet').css({
         width: bulletSize + 'px',
         height: bulletSize + 'px',
         left: centerX,
-        top: centerY
+        top: centerY,
+        transform: 'rotate(' + angle + 'deg)'
     });
+    bullet.attr("src", "css/img/bullet.png");
     $(this).append(bullet);
 
 
@@ -112,11 +120,24 @@ $(window).ready(function(){
     bullet.animate({
       left: relX,
       top: relY
-    },200, function(){
+    },bulletTime, function(){
        $(this).remove();
     });
 
+    //explosion
+    var explosion = $('<div/>').addClass('explosion').css({
+      left: relX - 57,
+      top: relY - 57
+    });
+    
 
+    setTimeout(function() {
+      $('#cont').append(explosion);
+    }, bulletTime);
+    
+    setTimeout(function() {
+      $(explosion).remove();
+    }, bulletTime + 1200);
 
   });
 

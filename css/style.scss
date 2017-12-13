@@ -13,8 +13,19 @@ body{
 
 .bullet{
 	position: absolute;
-	background: white;
 	z-index: 2;
+}
+
+.explosion{
+	height: 134px;
+	width: 134px;
+	position: absolute;
+	background: url('img/explosion.png') left center;
+	animation: expPlay 1.2s steps(12);
+	z-index: 4;
+}
+@keyframes expPlay {
+   100% { background-position: -1608px; }
 }
 
 

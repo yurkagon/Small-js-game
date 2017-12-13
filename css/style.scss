@@ -45,8 +45,16 @@ img#player {
 }
 
 .enemy{
-	width: 60px;
-	height: 60px;
+	width: 64px;
+	height: 64px;
 	position: absolute;
 	background: green;
+	background: url('img/enemy.png') left center;
+	background-size: cover;
+	animation:  enemyPlay 2s steps(12);
+	animation-iteration-count:infinite;
+	
+}
+@keyframes enemyPlay {
+   100% { background-position: -768px; }
 }

@@ -32,4 +32,10 @@ img#player {
   left: 0px;
   z-index: 3; }
 
+.enemy {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  background: green; }
+
 /*# sourceMappingURL=style.css.map */

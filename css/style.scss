@@ -43,3 +43,10 @@ img#player {
   
   z-index: 3;
 }
+
+.enemy{
+	width: 60px;
+	height: 60px;
+	position: absolute;
+	background: green;
+}

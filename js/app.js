@@ -1,6 +1,7 @@
 $(window).ready(function(){
   var playerSpeed = 2;
   var playerSize = 100;
+  var bulletSize = 20;
 
   var player = $('#player');
 
@@ -22,7 +23,6 @@ $(window).ready(function(){
     if (e.keyCode == 39 || e.keyCode == 68 ) toRight = true;
     if (e.keyCode == 38 || e.keyCode == 87 ) toUp = true;
     if (e.keyCode == 40 || e.keyCode == 83 ) toDown = true; 
-    console.log(e.keyCode);
   });
   $('body').keyup(function (e) {
     if (e.keyCode == 37 || e.keyCode == 65 ) toLeft = false;
@@ -84,6 +84,41 @@ $(window).ready(function(){
 
     player.css('transform', 'rotate(' + degree + 'deg)');
   },10);
+
+
+  //shooting
+  $('#cont').click(function(e){
+    //center of player
+    var centerX = parseInt(player.css('left')) + playerSize/2;
+    var centerY = parseInt(player.css('top')) + playerSize/2; 
+
+    //start position
+    var wrapper = $(this).parent();
+    var parentOffset = wrapper.offset(); 
+    var relX = e.pageX - parentOffset.left;
+    var relY = e.pageY - parentOffset.top;
+
+    //adding bullet
+    var bullet = $('<div/>').addClass('bullet').css({
+        width: bulletSize + 'px',
+        height: bulletSize + 'px',
+        left: centerX,
+        top: centerY
+    });
+    $(this).append(bullet);
+
+
+    //bullet moving
+    bullet.animate({
+      left: relX,
+      top: relY
+    },200, function(){
+       $(this).remove();
+    });
+
+
+
+  });
 
 });
 

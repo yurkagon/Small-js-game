@@ -11,6 +11,12 @@ body{
 	background: black; 
 }
 
+.bullet{
+	position: absolute;
+	background: white;
+	z-index: 2;
+}
+
 
 img#player {
 
@@ -22,4 +28,6 @@ img#player {
   position: absolute;
   top: 0px;
   left: 0px;
+  
+  z-index: 3;
 }

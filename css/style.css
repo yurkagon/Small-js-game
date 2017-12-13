@@ -9,10 +9,16 @@ body {
   height: 100vh;
   background: black; }
 
+.bullet {
+  position: absolute;
+  background: white;
+  z-index: 2; }
+
 img#player {
   -webkit-transition-property: top, left;
   position: absolute;
   top: 0px;
-  left: 0px; }
+  left: 0px;
+  z-index: 3; }
 
 /*# sourceMappingURL=style.css.map */

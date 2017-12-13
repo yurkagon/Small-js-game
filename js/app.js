@@ -4,6 +4,8 @@ $(window).ready(function(){
   var bulletSize = 30;
   var bulletTime = 200;
 
+  var isDeath = false;
+
   var player = $('#player');
   var container = $('#cont');
 
@@ -25,6 +27,9 @@ $(window).ready(function(){
     if (e.keyCode == 39 || e.keyCode == 68 ) toRight = true;
     if (e.keyCode == 38 || e.keyCode == 87 ) toUp = true;
     if (e.keyCode == 40 || e.keyCode == 83 ) toDown = true; 
+
+    if (e.keyCode == 82) restartGame();
+
   });
   $('body').keyup(function (e) {
     if (e.keyCode == 37 || e.keyCode == 65 ) toLeft = false;
@@ -35,32 +40,34 @@ $(window).ready(function(){
 
   //movement
   setInterval(function () {
+    if(!isDeath){
 
-    //left
-    if( parseInt(player.css('left')) > 0 ){ //limit left
-        if (toLeft) {
-          player.css('left', (parseInt(player.css('left')) - playerSpeed) + 'px');
+      //left
+      if( parseInt(player.css('left')) > 0 ){ //limit left
+          if (toLeft) {
+            player.css('left', (parseInt(player.css('left')) - playerSpeed) + 'px');
+          }
+      }
+     
+      //right
+      if( parseInt(player.css('left')) < screen.width - 2*playerSize ){  //limit right
+       if (toRight) {
+            player.css('left', (parseInt(player.css('left')) + playerSpeed) + 'px');
         }
-    }
-   
-    //right
-    if( parseInt(player.css('left')) < screen.width - 2*playerSize ){  //limit right
-     if (toRight) {
-          player.css('left', (parseInt(player.css('left')) + playerSpeed) + 'px');
       }
-    }
 
-    //up
-    if( parseInt(player.css('top')) > 0 ){ //limit top
-      if (toUp) {
-        player.css('top', (parseInt(player.css('top')) - playerSpeed) + 'px');
+      //up
+      if( parseInt(player.css('top')) > 0 ){ //limit top
+        if (toUp) {
+          player.css('top', (parseInt(player.css('top')) - playerSpeed) + 'px');
+        }
       }
-    }
-    
-    //down
-    if( parseInt(player.css('top')) < screen.height - 2*playerSize ){ //limit bottom
-      if (toDown) {
-        player.css('top', (parseInt(player.css('top')) + playerSpeed) + 'px');
+      
+      //down
+      if( parseInt(player.css('top')) < screen.height - 2*playerSize ){ //limit bottom
+        if (toDown) {
+          player.css('top', (parseInt(player.css('top')) + playerSpeed) + 'px');
+        }
       }
     }
   },10);
@@ -73,70 +80,72 @@ $(window).ready(function(){
     mouseY = e.pageY;
   });
   setInterval(function () {
+    if(!isDeath){
+      //center of player
+      var centerX = parseInt(player.css('left')) + playerSize/2;
+      var centerY = parseInt(player.css('top')) + playerSize/2; 
 
-    //center of player
-    var centerX = parseInt(player.css('left')) + playerSize/2;
-    var centerY = parseInt(player.css('top')) + playerSize/2; 
+      var dx = mouseX - centerX;
+      var dy = mouseY - centerY;
 
-    var dx = mouseX - centerX;
-    var dy = mouseY - centerY;
+      //Math.atan2(dy, dx) returns Radians, 180/Math.PI makes it as Degree
+      var degree = Math.atan2(dy, dx) * 180/Math.PI;
 
-    //Math.atan2(dy, dx) returns Radians, 180/Math.PI makes it as Degree
-    var degree = Math.atan2(dy, dx) * 180/Math.PI;
-
-    player.css('transform', 'rotate(' + degree + 'deg)');
+      player.css('transform', 'rotate(' + degree + 'deg)');
+    }
   },10);
 
 
   //shooting
   $('#cont').click(function(e){
-    //center of player - start position
-    var centerX = parseInt(player.css('left')) + playerSize/4;
-    var centerY = parseInt(player.css('top')) + playerSize/4; 
+    if(!isDeath){
+        //center of player - start position
+      var centerX = parseInt(player.css('left')) + playerSize/4;
+      var centerY = parseInt(player.css('top')) + playerSize/4; 
 
-    //target position
-    var wrapper = $(this).parent();
-    var parentOffset = wrapper.offset(); 
-    var relX = e.pageX - parentOffset.left;
-    var relY = e.pageY - parentOffset.top;
+      //target position
+      var wrapper = $(this).parent();
+      var parentOffset = wrapper.offset(); 
+      var relX = e.pageX - parentOffset.left;
+      var relY = e.pageY - parentOffset.top;
 
-    //angle of bullet
-    var dx = e.pageX - centerX;
-    var dy = e.pageY - centerY;
-    var angle = Math.atan2(dy, dx) * 180/Math.PI;
+      //angle of bullet
+      var dx = e.pageX - centerX;
+      var dy = e.pageY - centerY;
+      var angle = Math.atan2(dy, dx) * 180/Math.PI;
 
-    //adding bullet
-    var bullet = $('<img/>').addClass('bullet').css({
-        width: bulletSize + 'px',
-        height: bulletSize + 'px',
-        left: centerX,
-        top: centerY,
-        transform: 'rotate(' + angle + 'deg)'
-    });
-    bullet.attr("src", "css/img/bullet.png");
-    $(this).append(bullet);
+      //adding bullet
+      var bullet = $('<img/>').addClass('bullet').css({
+          width: bulletSize + 'px',
+          height: bulletSize + 'px',
+          left: centerX,
+          top: centerY,
+          transform: 'rotate(' + angle + 'deg)'
+      });
+      bullet.attr("src", "css/img/bullet.png");
+      $(this).append(bullet);
 
 
-    //bullet moving
-    bullet.animate({
-      left: relX,
-      top: relY
-    },bulletTime, function(){
-       $(this).remove();
-    });
+      //bullet moving
+      bullet.animate({
+        left: relX,
+        top: relY
+      },bulletTime, function(){
+         $(this).remove();
+      });
 
-    //explosion
-    var explosion = $('<div/>').addClass('explosion').css({
-      left: relX - 57,
-      top: relY - 57
-    });
-    setTimeout(function() { //adding
-      $('#cont').append(explosion);
-    }, bulletTime);
-    setTimeout(function() { //removing
-      $(explosion).remove();
-    }, bulletTime + 1200);
-
+      //explosion
+      var explosion = $('<div/>').addClass('explosion').css({
+        left: relX - 57,
+        top: relY - 57
+      });
+      setTimeout(function() { //adding
+        $('#cont').append(explosion);
+      }, bulletTime);
+      setTimeout(function() { //removing
+        $(explosion).remove();
+      }, bulletTime + 1200);
+    }
   });
 
 
@@ -157,8 +166,10 @@ $(window).ready(function(){
 
     //collision player
     enemy.each(function(){
-       //collision(player,$(this));
-       //lose or health -1
+       if(collision(player,$(this))) {
+        isDeath = true;
+        player.remove(); //you died
+       }
     });
 
     //collision bullets
@@ -174,6 +185,7 @@ $(window).ready(function(){
   },10);
 
   //enemy spawner
+  var spawnCount = 1;
   setTimeout(enemySpawner,3000);
   function enemySpawner(){
     var left, top;
@@ -204,15 +216,28 @@ $(window).ready(function(){
       break;
     }
 
-    //console.log(left);
-
     container.append($('<div/>').addClass('enemy').css({
         left: left + 'px',
         top: top + 'px'
     }));
 
-    var nextSpawningTime = 2 * Math.random() * 1000;
+    var nextSpawningTime = (2 * Math.random()*spawnCount) * 1000;
+
+    spawnCount -= 0.01;
     setTimeout(enemySpawner, nextSpawningTime);
+  }
+
+  //restarting game
+  function restartGame(){
+    player.remove();
+    container.append(player);
+    player.css('top', (screen.height/2 - playerSize) + 'px');
+    player.css('left', (screen.width/2 - playerSize) + 'px');
+    isDeath = false;
+
+    $('.enemy').remove();
+
+    spawnCount = 1;
   }
 
 });

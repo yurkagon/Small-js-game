@@ -5,9 +5,12 @@ $(window).ready(function(){
   var bulletTime = 200;
 
   var isDeath = false;
+  $('.restartText').hide();
 
   var player = $('#player');
   var container = $('#cont');
+
+  var killCounter = 0;
 
   //setting player size
   player.css('height', playerSize + 'px');
@@ -169,6 +172,8 @@ $(window).ready(function(){
        if(collision(player,$(this))) {
         isDeath = true;
         player.remove(); //you died
+        $('.restartText h1').html("You are dead. Press R to Restart.<br>Scores: " + killCounter);
+        $('.restartText').show(100);
        }
     });
 
@@ -179,6 +184,7 @@ $(window).ready(function(){
         if(collision(t,$(this))){
           $(this).remove();
           t.remove();
+          killCounter++;
         };
        });
     });
@@ -190,8 +196,6 @@ $(window).ready(function(){
   function enemySpawner(){
     var left, top;
     var side = Math.floor((Math.random()*4));
-
-    console.log(side);
 
     switch (side) {
       case 0:
@@ -216,10 +220,13 @@ $(window).ready(function(){
       break;
     }
 
-    container.append($('<div/>').addClass('enemy').css({
+    if(!isDeath){
+      container.append($('<div/>').addClass('enemy').css({
         left: left + 'px',
         top: top + 'px'
-    }));
+      }));
+    }
+    
 
     var nextSpawningTime = (2 * Math.random()*spawnCount) * 1000;
 
@@ -236,7 +243,9 @@ $(window).ready(function(){
     isDeath = false;
 
     $('.enemy').remove();
+    $('.restartText').hide();
 
+    killCounter = 0;
     spawnCount = 1;
   }
 

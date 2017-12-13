@@ -5,6 +5,22 @@ body{
 	background: black;
 }
 
+.restartText{
+	position: fixed;
+	left: 5%;
+	top: 30%;
+	z-index: 5;
+	width: 90%;
+	height: 30vh;
+	margin: auto;
+	color: red;
+	text-align: center;
+	font: bold;
+	&::h1{
+		
+	}
+}
+
 #cont{
 	margin: auto;
 	width: 100%;

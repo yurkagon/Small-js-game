@@ -30,6 +30,7 @@ document.body.onkeyup = function (e) {
   if (e.keyCode == 40 || e.keyCode == 83 ) toDown = false; 
 }
 
+//movement
 setInterval(function () {
 
   //left
@@ -63,21 +64,24 @@ setInterval(function () {
 
 
 //rotation
-document.getElementById('cont').onmousemove = function (e) {
+var mouseX,mouseY;
+document.getElementById('cont').onmousemove = function(e){
+  mouseX = e.pageX;
+  mouseY = e.pageY;
+}
+setInterval(function () {
 
   //center of player
   var centerX = parseInt(player.style.left) + playerSize/2;
   var centerY = parseInt(player.style.top) + playerSize/2; 
 
-  
-  var dx = e.pageX - centerX;
-  var dy = e.pageY - centerY;
+  var dx = mouseX - centerX;
+  var dy = mouseY - centerY;
 
   //Math.atan2(dy, dx) returns Radians, 180/Math.PI makes it as Degree
   var degree = Math.atan2(dy, dx) * 180/Math.PI;
 
   player.style.transform = 'rotate(' + degree + 'deg)';
-}
-
+},10);
 
 

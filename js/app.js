@@ -129,18 +129,17 @@ $(window).ready(function(){
       left: relX - 57,
       top: relY - 57
     });
-    
-
-    setTimeout(function() {
+    setTimeout(function() { //adding
       $('#cont').append(explosion);
     }, bulletTime);
-    
-    setTimeout(function() {
+    setTimeout(function() { //removing
       $(explosion).remove();
     }, bulletTime + 1200);
 
   });
 
+
+///https://github.com/jriecken/sat-js
 });
 
 

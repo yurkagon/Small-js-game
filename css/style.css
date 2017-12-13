@@ -1,13 +1,13 @@
 body {
   margin: 0;
   padding: 0;
-  cursor: crosshair; }
+  cursor: crosshair;
+  background: black; }
 
 #cont {
   margin: auto;
   width: 100%;
   height: 100vh;
-  background: black;
   overflow: hidden; }
 
 .bullet {

@@ -5,6 +5,7 @@ $(window).ready(function(){
   var bulletTime = 200;
 
   var player = $('#player');
+  var container = $('#cont');
 
   //setting player size
   player.css('height', playerSize + 'px');
@@ -156,7 +157,8 @@ $(window).ready(function(){
 
     //collision player
     enemy.each(function(){
-       console.log(collision(player,$(this)));
+       //collision(player,$(this));
+       //lose or health -1
     });
 
     //collision bullets
@@ -169,12 +171,49 @@ $(window).ready(function(){
         };
        });
     });
-   
-   
-
   },10);
 
+  //enemy spawner
+  setTimeout(enemySpawner,3000);
+  function enemySpawner(){
+    var left, top;
+    var side = Math.floor((Math.random()*4));
 
+    console.log(side);
+
+    switch (side) {
+      case 0:
+        left = 0;
+        top = screen.height * Math.random();
+      break;
+      case 1:
+        left = screen.width;
+        top = screen.height * Math.random();
+      break;
+      case 2:
+        left = screen.width * Math.random();
+        top = 0;
+      break;
+      case 3:
+        left = screen.width * Math.random();
+        top = screen.height;
+      break;
+
+      default:
+        console.log('nothing');
+      break;
+    }
+
+    //console.log(left);
+
+    container.append($('<div/>').addClass('enemy').css({
+        left: left + 'px',
+        top: top + 'px'
+    }));
+
+    var nextSpawningTime = 2 * Math.random() * 1000;
+    setTimeout(enemySpawner, nextSpawningTime);
+  }
 
 });
 

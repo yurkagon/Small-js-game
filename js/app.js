@@ -28,10 +28,6 @@ $(window).ready(function(){
   killSound.volume = 1;
 
 
-
-
-  $('.restartText').hide();
-
   //setting player size
   player.css('height', playerSize + 'px');
   player.css('width', playerSize + 'px');

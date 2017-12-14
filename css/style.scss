@@ -1,8 +1,20 @@
+*{
+	//забороняємо виділення (всім браузерам)
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+
+
 body{
 	margin: 0;
 	padding: 0;
 	cursor: crosshair;
 	background: black;
+	overflow:hidden;
 }
 
 .restartText{
@@ -16,8 +28,8 @@ body{
 	color: red;
 	text-align: center;
 	font: bold;
-	&::h1{
-		
+	& h1{
+		font-size: 50pt;
 	}
 }
 

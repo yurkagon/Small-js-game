@@ -4,13 +4,33 @@ $(window).ready(function(){
   var bulletSize = 30;
   var bulletTime = 200;
 
+  //do not touch
+  var killCounter = 0;
   var isDeath = false;
-  $('.restartText').hide();
+  var spawnCount = 1;
 
   var player = $('#player');
   var container = $('#cont');
 
-  var killCounter = 0;
+  //sounds
+  var music = new Audio("sounds/music.mp3");
+  music.volume = 0.4;
+  music.loop = true;
+  music.play();
+
+  var restartSound = new Audio("sounds/restart.wav");
+  restartSound.volume = 0.7;
+  var shotSound = new Audio("sounds/shot.wav");
+  shotSound.volume = 0.4;
+  var loseSound = new Audio("sounds/lose.wav");
+  loseSound.volume = 0.4;
+  var killSound = new Audio("sounds/kill.wav");
+  killSound.volume = 1;
+
+
+
+
+  $('.restartText').hide();
 
   //setting player size
   player.css('height', playerSize + 'px');
@@ -148,6 +168,8 @@ $(window).ready(function(){
       setTimeout(function() { //removing
         $(explosion).remove();
       }, bulletTime + 1200);
+
+      shotSound.play();
     }
   });
 
@@ -167,33 +189,36 @@ $(window).ready(function(){
 
     },400, "linear");
 
-    //collision player
+    //collision player (check if killed)
     enemy.each(function(){
        if(collision(player,$(this))) {
         isDeath = true;
         player.remove(); //you died
+        loseSound.play();
         $('.restartText h1').html("You are dead. Press R to Restart.<br>Scores: " + killCounter);
         $('.restartText p').html('Your record: ' + scoreRecord(killCounter));
         $('.restartText').show(100);
        }
     });
 
-    //collision bullets
+    //collision bullets (check if bullet got on enemy)
      enemy.each(function(){
-       var t = $(this);
+       var tempEnemy = $(this);
        bullets.each(function(){
-        if(collision(t,$(this))){
+
+        if(collision(tempEnemy,$(this))){
           $(this).remove();
-          t.remove();
+          tempEnemy.remove();
           killCounter++;
+          killSound.play();
         };
+
        });
     });
   },10);
 
   //enemy spawner
-  var spawnCount = 1;
-  setTimeout(enemySpawner,3000);
+  setTimeout(enemySpawner,4800);
   function enemySpawner(){
     var left, top;
     var side = Math.floor((Math.random()*4));
@@ -248,6 +273,8 @@ $(window).ready(function(){
 
     killCounter = 0;
     spawnCount = 1;
+
+    restartSound.play();
   }
 
   //bestResults

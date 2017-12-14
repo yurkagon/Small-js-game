@@ -173,6 +173,7 @@ $(window).ready(function(){
         isDeath = true;
         player.remove(); //you died
         $('.restartText h1').html("You are dead. Press R to Restart.<br>Scores: " + killCounter);
+        $('.restartText p').html('Your record: ' + scoreRecord(killCounter));
         $('.restartText').show(100);
        }
     });
@@ -247,6 +248,21 @@ $(window).ready(function(){
 
     killCounter = 0;
     spawnCount = 1;
+  }
+
+  //bestResults
+  function scoreRecord(count){
+    //if undefined
+    if( !(!!localStorage.getItem("record"))  ){
+      localStorage.setItem("record", count);
+      return count;
+    } 
+
+    if( count > +localStorage.getItem("record")){
+      localStorage.setItem("record", count);
+      return count;
+    }
+    else return +localStorage.getItem("record");
   }
 
 });

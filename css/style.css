@@ -25,6 +25,8 @@ body {
   font: bold; }
   .restartText h1 {
     font-size: 50pt; }
+  .restartText p {
+    font-size: 25pt; }
 
 #cont {
   margin: auto;

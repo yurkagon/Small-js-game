@@ -14,7 +14,7 @@ body{
 	padding: 0;
 	cursor: crosshair;
 	background: black;
-	overflow:hidden;
+	overflow:hidden; //no scroll
 }
 
 .restartText{
@@ -30,6 +30,10 @@ body{
 	font: bold;
 	& h1{
 		font-size: 50pt;
+	}
+
+	& p{
+		font-size: 25pt;
 	}
 }
 

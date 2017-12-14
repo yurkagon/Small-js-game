@@ -163,10 +163,10 @@ $(window).ready(function(){
         top: relY - 57
       });
       setTimeout(function() { //adding
-        $('#cont').append(explosion);
+         $('#cont').append(explosion);
       }, bulletTime);
       setTimeout(function() { //removing
-        $(explosion).remove();
+         $(explosion).remove();
       }, bulletTime + 1200);
 
       shotSound.play();
@@ -256,7 +256,7 @@ $(window).ready(function(){
 
     var nextSpawningTime = (2 * Math.random()*spawnCount) * 1000;
 
-    spawnCount -= 0.01;
+    if(spawnCount > 0.1)  spawnCount -= 0.01;
     setTimeout(enemySpawner, nextSpawningTime);
   }
 

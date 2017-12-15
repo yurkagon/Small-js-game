@@ -196,7 +196,7 @@ $(window).ready(function(){
         isDeath = true;
         player.remove(); //you died
         loseSound.play();
-        $('.restartText h1').html("You are dead. Press R to Restart. Артем Шуляк лох :*<br>Scores: " + killCounter);
+        $('.restartText h1').html("You are dead. Press R to Restart.<br>Scores: " + killCounter);
         $('.restartText p').html('Your record: ' + scoreRecord(killCounter));
         $('.restartText').show(100);
        }

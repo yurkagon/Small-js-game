@@ -20,12 +20,14 @@ $(window).ready(function(){
 
   var restartSound = new Audio("sounds/restart.wav");
   restartSound.volume = 0.7;
-  var shotSound = new Audio("sounds/shot.wav");
-  shotSound.volume = 0.4;
   var loseSound = new Audio("sounds/lose.wav");
   loseSound.volume = 0.4;
   var killSound = new Audio("sounds/kill.wav");
   killSound.volume = 1;
+
+  var shotSoundLink = "sounds/shot.wav";
+  var shotSound = new Audio();
+  var shotSoundVolume = 0.3;
 
 
   //setting player size
@@ -165,6 +167,9 @@ $(window).ready(function(){
          $(explosion).remove();
       }, bulletTime + 1200);
 
+      //making new sound for removing sound delay between shots
+      shotSound = new Audio(shotSoundLink);
+      shotSound.volume = shotSoundVolume;
       shotSound.play();
     }
   });
@@ -191,7 +196,7 @@ $(window).ready(function(){
         isDeath = true;
         player.remove(); //you died
         loseSound.play();
-        $('.restartText h1').html("You are dead. Press R to Restart.<br>Scores: " + killCounter);
+        $('.restartText h1').html("You are dead. Press R to Restart. Артем Шуляк лох :*<br>Scores: " + killCounter);
         $('.restartText p').html('Your record: ' + scoreRecord(killCounter));
         $('.restartText').show(100);
        }
@@ -306,5 +311,3 @@ function collision($div1, $div2) {
 
   return !(b1 < y2 || y1 > b2 || r1 < x2 || x1 > r2);
 }
-///https://github.com/jriecken/sat-js
-
